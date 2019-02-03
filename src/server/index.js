@@ -11,6 +11,7 @@ const express = require('express'),
       });
 const util = require('util');
 const multer  = require('multer');
+const port = process.env.PORT || 8080;
 global.upload = multer({ dest: __dirname+'/tmp/'});
 
 async function start(){
@@ -64,7 +65,7 @@ async function start(){
   app.use(bodyParser.json());
   app.use(require('./routes'));
   app.get('/', function(req, res) {res.sendFile(__dirname+'/index.html')});
-  app.listen(80, () => console.log('Listening on port 80!'));
+  app.listen(port, () => console.log('Listening on port '+port+'!'));
 }
 
 start();
