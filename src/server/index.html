@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <center>
+      <form action="/api/consume/captcha" method="post" enctype="multipart/form-data">
+        <div>
+          <label>Apikey:</label>
+          <input type="text" name="apikey" value="">
+        </div>
+        <br />
+        <div>
+          <label>Captcha Image:</label>
+          <input type="file" name="image">
+        </div>
+        <br />
+        <input type="submit" value="Read captcha">
+      </form>
+    </center>
+  </body>
+</html>
