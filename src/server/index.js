@@ -64,7 +64,7 @@ async function start(){
   app.use(bodyParser.json());
   app.use(require('./routes'));
   app.get('/', function(req, res) {res.sendFile(__dirname+'/index.html')});
-  app.listen(8080, () => console.log('Listening on port 8080!'));
+  app.listen(80, () => console.log('Listening on port 80!'));
 }
 
 start();
