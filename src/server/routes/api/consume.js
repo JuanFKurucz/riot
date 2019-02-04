@@ -4,7 +4,6 @@ const getPixels = require("get-pixels");
 
 
 async function readCaptcha(path){
-  console.log(path);
   return await getPixels(path, async function(err, pixels) {
     if(err) {
       console.log("Bad image path");
@@ -19,7 +18,6 @@ async function readCaptcha(path){
 const captcha = async (req,res) => {
   let response = {error:true,error_message:"No image"};
   const data = getReqData(req);
-  console.log(data);
   if(checkQuery(data,["apikey"])){
     const apiKey = data.apikey;
     const date = (new Date()).getTime();
@@ -33,14 +31,15 @@ const captcha = async (req,res) => {
           const path = 'src/server/uploads/'+apiKey+"-"+date+"."+extension;
           fs.renameSync(req.files["image"][0].path,path);
           const result = await readCaptcha(path);
-          const sql_insert = "INSERT INTO consumption SET ?";
+          console.log(result);
+          /*const sql_insert = "INSERT INTO consumption SET ?";
           try{
             const result_insert = await query(sql_insert,{id_apikey,date});
             response = {"error":false,"result":result};
           } catch(e){
             console.log(e);
             response = {"error":true,"result":result};
-          }
+          }*/
         }
       }
     } catch(e){
