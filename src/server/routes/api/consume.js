@@ -176,6 +176,7 @@ async function readCaptcha(path,callback){
     let colorsBoxes=[];
     for(let i=0;i<startingPoints.length;i++){
       let o = {
+        index:i,
         topLeft: {
           x:startingPoints[i][0],
           y:startingPoints[i][1]
