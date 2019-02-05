@@ -270,18 +270,6 @@ async function readCaptcha(path){
   });
 }
 
-async function readCaptcha(path){
-  return await getPixels(path, async function(err, pixels) {
-    if(err) {
-      console.log("Bad image path");
-      return -1;
-    }
-    const imageData = pixels.data;
-    console.log("got pixels", imageData);
-    return 1;
-  })
-}
-
 const captcha = async (req,res) => {
   let response = {error:true,error_message:"No image"};
   const data = getReqData(req);
@@ -298,7 +286,6 @@ const captcha = async (req,res) => {
           const path = 'src/server/uploads/'+apiKey+"-"+date+"."+extension;
           fs.renameSync(req.files["image"][0].path,path);
           const result = await readCaptcha(path);
-          console.log(result);
           const sql_insert = "INSERT INTO consumption SET ?";
           try{
             const result_insert = await query(sql_insert,{id_apikey,date});
