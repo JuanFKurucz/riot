@@ -83,8 +83,8 @@ function getColorsCoordinates(imageData,cords,asd=null){
   return colors;
 }
 
-async function readCaptcha(path){
-  return await getPixels(path, async function(err, pixels) {
+async function readCaptcha(path,callback){
+  await getPixels(path, async function(err, pixels) {
     if(err) {
       return -1;
     }
@@ -247,7 +247,6 @@ async function readCaptcha(path){
       boxes[i].colors=null;
     }
 
-    console.log(boxes);
 
     let maxBox=boxes[0];
     let maxScore=boxes[0].score;
@@ -262,7 +261,7 @@ async function readCaptcha(path){
     }
     getColorsCoordinates(imageData,maxBox,[0,0,0]);
 
-    return maxBox;
+    callback(maxBox);
 
     /*let myFile = fs.createWriteStream("output.png");
     savePixels(imageData, "png").pipe(myFile);
@@ -285,25 +284,28 @@ const captcha = async (req,res) => {
           const extension = req.files["image"][0].originalname.split(".")[req.files["image"][0].originalname.split(".").length-1];
           const path = 'src/server/uploads/'+apiKey+"-"+date+"."+extension;
           fs.renameSync(req.files["image"][0].path,path);
-          const result = await readCaptcha(path);
-          const sql_insert = "INSERT INTO consumption SET ?";
-          try{
-            const result_insert = await query(sql_insert,{id_apikey,date});
-            response = {"error":false,"result":result};
-          } catch(e){
-            console.log(e);
-            response = {"error":true,"result":result};
-          }
+          await readCaptcha(path,function(result){
+            const sql_insert = "INSERT INTO consumption SET ?";
+            try{
+              const result_insert = await query(sql_insert,{id_apikey,date});
+              response = {"error":false,"result":result};
+            } catch(e){
+              console.log(e);
+              response = {"error":true,"result":result};
+            }
+            res.send(response);
+          });
         }
       }
     } catch(e){
       console.log(e);
       response = {error:true,error_message:"Bad apikey"};
+      res.send(response);
     }
   } else {
     response = {error:true,error_message:"Bad parameters"};
+    res.send(response);
   }
-  res.send(response);
 };
 
 
