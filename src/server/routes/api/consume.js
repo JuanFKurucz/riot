@@ -3,25 +3,6 @@ const fs = require("fs");
 const getPixels = require("get-pixels");
 //const savePixels = require("save-pixels");
 
-function cleanCord(imageData,x,y){
-  let i = x*4 + y*imageData.shape[0]*4;
-  imageData.data[i]=0;
-  imageData.data[i+1]=0;
-  imageData.data[i+2]=0;
-  imageData.data[i+3]=0;
-}
-
-function cleanLine(imageData,y){
-  for(let x=0;x<imageData.shape[0];x++){
-    cleanCord(imageData,x,y);
-  }
-}
-
-function cleanRow(imageData,x){
-  for(let y=0;y<imageData.shape[1];y++){
-    cleanCord(imageData,x,y);
-  }
-}
 
 function isColor(color,data,tol=0){
   let bool = (Math.abs(data[0]-color[0])<=tol && Math.abs(data[1]-color[1])<=tol && Math.abs(data[2]-color[2])<=tol);
@@ -31,14 +12,6 @@ function isColor(color,data,tol=0){
   return bool;
 }
 
-function insideCords(cord,x,y){
-  for(let yC in cord){
-    if(x >= cord[yC].min && x<= cord[yC].max && yC == y){
-      return true;
-    }
-  }
-  return false;
-}
 
 function getStringCord(stringCord,cord){
   if(cord==="x"){
@@ -48,14 +21,9 @@ function getStringCord(stringCord,cord){
   }
 }
 
-const f = (a, b) => [].concat(...a.map(d => b.map(e => [].concat(d, e))));
-const cartesian = (a, b, ...c) => (b ? cartesian(f(a, b), ...c) : a);
-
-
 function round5(x){
     return Math.ceil(parseInt(x)/5)*5;
 }
-
 
 function getColorsCoordinates(imageData,cords,asd=null){
   let colors={};
