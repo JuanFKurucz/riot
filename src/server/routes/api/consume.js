@@ -284,7 +284,7 @@ const captcha = async (req,res) => {
           const extension = req.files["image"][0].originalname.split(".")[req.files["image"][0].originalname.split(".").length-1];
           const path = 'src/server/uploads/'+apiKey+"-"+date+"."+extension;
           fs.renameSync(req.files["image"][0].path,path);
-          await readCaptcha(path,function(result){
+          await readCaptcha(path, async function(result){
             const sql_insert = "INSERT INTO consumption SET ?";
             try{
               const result_insert = await query(sql_insert,{id_apikey,date});
