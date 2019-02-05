@@ -167,16 +167,16 @@ async function readCaptcha(path,callback){
     startingPoints.push([xVertex[0]+verticalDistance[0],yVertex[0]]);
     startingPoints.push([xVertex[0]+verticalDistance[0]*2,yVertex[0]]);
     startingPoints.push([xVertex[0],yVertex[0]+horizontalDistanceTest]);
-    startingPoints.push([xVertex[0],yVertex[0]+horizontalDistanceTest*2]);
     startingPoints.push([xVertex[0]+verticalDistance[0],yVertex[0]+horizontalDistanceTest]);
     startingPoints.push([xVertex[0]+verticalDistance[0]*2,yVertex[0]+horizontalDistanceTest]);
+    startingPoints.push([xVertex[0],yVertex[0]+horizontalDistanceTest*2]);
     startingPoints.push([xVertex[0]+verticalDistance[0],yVertex[0]+horizontalDistanceTest*2]);
     startingPoints.push([xVertex[0]+verticalDistance[0]*2,yVertex[0]+horizontalDistanceTest*2]);
 
     let colorsBoxes=[];
     for(let i=0;i<startingPoints.length;i++){
       let o = {
-        index:i,
+        index:i+1,
         topLeft: {
           x:startingPoints[i][0],
           y:startingPoints[i][1]
